@@ -33,6 +33,20 @@ def searchUser(txt):
     return jsonify(finaldata), 200, {'Content-Type': 'application/json'}
 
 
+@app.route('/autocomplete/<txt>', methods=["GET"])
+def autocomplete(txt):
+    rdb = search.Search()
+    res = rdb.suggest(txt)
+
+    finalres = []
+    for x in res:
+        finalres.append(str(x))
+    finaldata = {
+        'data': finalres
+    }
+    #return 'piola'
+    return jsonify(finaldata), 200, {'Content-Type': 'application/json'}
+
 @app.route('/add', methods=['POST'])
 def add():
     rdb = search.Search()
