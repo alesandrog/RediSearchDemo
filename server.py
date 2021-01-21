@@ -47,7 +47,7 @@ def autocomplete(txt):
     #return 'piola'
     return jsonify(finaldata), 200, {'Content-Type': 'application/json'}
 
-@app.route('/add', methods=['POST'])
+@app.route('/add', methods=["POST"])
 def add():
     rdb = search.Search()
     userInfo = json.loads(request.data)
