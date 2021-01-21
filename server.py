@@ -1,16 +1,18 @@
 import search
-from http.server import HTTPServer, BaseHTTPRequestHandler
+from flask import Flask
+app = Flask(__name__)
 
-class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
+@app.route('/')
+def hello_world():
+   return 'Hello Tutorialspoint'
 
-    def do_GET(self):
-        rdb = search.Search()
-        res = rdb.searchText("search engine")
-        print(res)
-        self.send_response(200)
-        self.end_headers()
-        self.wfile.write(b'Hello, world!')
+@app.route('/search')
+def hello_world2():
+   rdb = search.Search()
+   res = rdb.searchText("hello world")
+   print(res)
+   return 'Search succesful'
 
 
-httpd = HTTPServer(('localhost', 8000), SimpleHTTPRequestHandler)
-httpd.serve_forever()
+if __name__ == '__main__':
+   app.run()
