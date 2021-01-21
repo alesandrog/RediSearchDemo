@@ -1,18 +1,50 @@
 import search
-from flask import Flask
+import flask
+from flask import Flask, request
+from flask import jsonify
+import json
+
+
 app = Flask(__name__)
+
 
 @app.route('/')
 def hello_world():
-   return 'Hello Tutorialspoint'
+    return 'Hi, from Flask'
 
-@app.route('/search')
-def hello_world2():
-   rdb = search.Search()
-   res = rdb.searchText("hello world")
-   print(res)
-   return 'Search succesful'
+
+@app.route('/search/<txt>', methods=["GET"])
+def searchUser(txt):
+ #  data = json.loads(request.data)
+    rdb = search.Search()
+    res = rdb.searchText(txt)
+
+    finalres = []
+    for x in res.docs:
+        val = {
+            'username': x.username,
+            'name': x.name,
+            'age': x.age
+        }
+        finalres.append(val)
+    finaldata = {
+        'data': finalres
+    }
+    return jsonify(finaldata), 200, {'Content-Type': 'application/json'}
+
+
+@app.route('/add', methods=['POST'])
+def add():
+    rdb = search.Search()
+    userInfo = json.loads(request.data)
+    data = {
+        'username': userInfo['username'],
+        'name': userInfo['name'],
+        'age': userInfo['age']
+    }
+    rdb.addUser(data)
+    return jsonify({}), 200, {'Content-Type': 'application/json'}
 
 
 if __name__ == '__main__':
-   app.run()
+    app.run()
