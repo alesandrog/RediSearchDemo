@@ -1,8 +1,11 @@
 const searchbox = document.getElementById('searchbox');
 const list = document.getElementById('result_list');
+const placeholderBox = document.getElementById('searchbox2');
+//const suggestbox = document.getElementById('suggestbox');
+//const suggest_list = document.getElementById('suggest_list');
+//const navSug = document.getElementById('nav-suggestion-list');
 
-const suggestbox = document.getElementById('suggestbox');
-const suggest_list = document.getElementById('suggest_list');
+
 
 const options = {
     method: 'GET',
@@ -12,16 +15,21 @@ const options = {
 };
 
 async function search(){
+    const suggestion = await fetch(`http://localhost:5000/autocomplete/${searchbox.value != '' ? searchbox.value : ' '}`, options);
+    const suggJson = await suggestion.json();
+    placeholderBox.placeholder = suggJson.data[0];
+    console.log(suggJson.data[0])
+
     const data = await fetch(`http://localhost:5000/search/${searchbox.value}`, options);
     const json = await data.json();
     list.innerHTML = '';
     let newInner = '';
     for(let document of json.data){
-        newInner += card(document)
+        newInner += listElement(document);
     }
     list.innerHTML = newInner;
 }
-
+/*
 async function suggest(){
     console.log(suggestbox.value)
     const data = await fetch(`http://localhost:5000/autocomplete/${suggestbox.value != '' ? suggestbox.value : ' '}`, options);
@@ -32,6 +40,12 @@ async function suggest(){
         newInner += suggestionCard(document)
     }
     suggest_list.innerHTML = newInner;
+}*/
+
+function listElement(user){
+    return `
+    <li> ${user.name} </li>
+    `;
 }
 
 function card(user){

@@ -15,29 +15,27 @@
 </head>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">Navbar</a>
+        <a class="navbar-brand" href="#">RediSearch</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
             data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
             aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
+                    <a class="nav-link active" aria-current="page" href="#">Add User</a>
                 </li>
             </ul>
 
 
             <form class="d-flex">
                 <div class="form-container">
-                    <input class="form-control me-2" id="nav-input" type="search" placeholder="Search" aria-label="Search" onkeyup="search()">
-                    <div class="suggestions-nav" style="display: inline;">
-                        <div class="sugg-list" style="position: absolute;">
-                            <ul id="nav-suggestion-list">
+                    <input class="form-control me-2" id="searchbox"  placeholder="" onkeyup="search()">
+                    <input class="form-control me-2" id="searchbox2"  placeholder="Search2" onkeyup="search()">
+                    <div class="search-container" style="display: inline;">
+                        <div class="result-container" style="position: absolute;">
+                            <ul id="result_list">
                                 
                             </ul>
                         </div>
@@ -50,26 +48,7 @@
 </nav>
 <body>
     <div class="main-app">
-        <div class="container">
-            <div class="search">
-                <div class="search-container">
-                    <input type="text" id="searchbox" onkeyup="search()">
-                </div>
-                <div class="result-container" id="result_list">
-
-                </div>
-            </div>
-        </div>
-        <div class="container">
-            <div class="search">
-                <div class="search-container">
-                    <input type="text" id="suggestbox" onkeyup="suggest()">
-                </div>
-                <div class="suggest-container" id="suggest_list">
-
-                </div>
-            </div>
-        </div>
+        
     </div>
     <script src="index.js"></script>
 </body>
