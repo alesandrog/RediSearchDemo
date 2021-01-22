@@ -7,8 +7,6 @@ class Search:
                              port=6379, conn=None, password=None)
 
     def searchText(self, txt):
-#        q = Query(txt).verbatim().no_content().with_scores().paging(0, 5)
-#        res = self.client.search(q)        
         res = self.client.search(txt)
         return res
 
@@ -16,10 +14,7 @@ class Search:
 
     def suggest(self, txt):
         ac = AutoCompleter('ac')
-        #ac.add_suggestions(Suggestion('foo', 5.0), Suggestion('bar', 1.0))
         res = ac.get_suggestions(txt)
-        #print(res)
-        #suggs = ac.get_suggestions('goo', fuzzy = True) # returns ['foo']
         return res
 
     def addUser(self, data):

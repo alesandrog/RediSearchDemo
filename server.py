@@ -15,7 +15,6 @@ def hello_world():
 
 @app.route('/search/<txt>', methods=["GET"])
 def searchUser(txt):
- #  data = json.loads(request.data)
     rdb = search.Search()
     res = rdb.searchText(txt)
 
@@ -44,7 +43,6 @@ def autocomplete(txt):
     finaldata = {
         'data': finalres
     }
-    #return 'piola'
     return jsonify(finaldata), 200, {'Content-Type': 'application/json'}
 
 @app.route('/add', methods=["POST"])
