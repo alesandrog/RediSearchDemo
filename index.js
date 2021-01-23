@@ -1,26 +1,51 @@
+/**
+ * Inputs
+ */
 const searchbox = document.getElementById('searchbox');
+const userInput = document.getElementById('userInput');
+const nameInput = document.getElementById('nameInput');
+const ageInput = document.getElementById('ageInput');
+
+/**
+ * DOM elements
+ */
+
 const list = document.getElementById('result_list');
 const placeholderBox = document.getElementById('searchbox2');
-//const suggestbox = document.getElementById('suggestbox');
-//const suggest_list = document.getElementById('suggest_list');
-//const navSug = document.getElementById('nav-suggestion-list');
+const userRead = document.getElementById('userRead');
+const nameRead = document.getElementById('nameRead');
+const ageRead = document.getElementById('ageRead');
 
 
 
-const options = {
+const GEToptions = {
     method: 'GET',
     headers: {
         'Content-Type': 'application/json'
     }
 };
 
+const POSToptions = {
+    method: 'GET',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body:{}
+};
+
+
+
 async function search(){
-    const suggestion = await fetch(`http://localhost:5000/autocomplete/${searchbox.value != '' ? searchbox.value : ' '}`, options);
+    if(searchbox.value == ''){
+        placeholderBox.placeholder = '';
+        return;
+    }
+    const suggestion = await fetch(`http://localhost:5000/autocomplete/${searchbox.value}`, GEToptions);
     const suggJson = await suggestion.json();
-    placeholderBox.placeholder = suggJson.data[0];
+    placeholderBox.placeholder = suggJson.data[0] != undefined ? suggJson.data[0] : '';
     console.log(suggJson.data[0])
 
-    const data = await fetch(`http://localhost:5000/search/${searchbox.value}`, options);
+    const data = await fetch(`http://localhost:5000/search/${searchbox.value}`, GEToptions);
     const json = await data.json();
     list.innerHTML = '';
     let newInner = '';
@@ -28,46 +53,26 @@ async function search(){
         newInner += listElement(document);
     }
     list.innerHTML = newInner;
-}
-/*
-async function suggest(){
-    console.log(suggestbox.value)
-    const data = await fetch(`http://localhost:5000/autocomplete/${suggestbox.value != '' ? suggestbox.value : ' '}`, options);
-    const json = await data.json();
-    suggest_list.innerHTML = '';
-    let newInner = '';
-    for(let document of json.data){
-        newInner += suggestionCard(document)
+
+    var results = document.getElementsByClassName('list_el');
+    for (var i = 0; i < results.length; i++) {
+        console.log(results[i].id)
+        results[i].addEventListener('click', setUserData.bind(results[i], results[i].id));
     }
-    suggest_list.innerHTML = newInner;
-}*/
+}
+
+async function setUserData(userId){
+    const data = await fetch(`http://localhost:5000/search/${userId}`, GEToptions);
+    const json = await data.json();
+    const user = json.data[0];
+    userRead.placeholder = user.username;
+    nameRead.placeholder = user.name;
+    ageRead.placeholder = user.age;
+}
 
 function listElement(user){
     return `
-    <li> ${user.name} </li>
+    <li id="${user.username}" class="list_el">@${user.username} | ${user.name} </li>
     `;
 }
 
-function card(user){
-    return `
-    <div class="userCard">
-        <h3>${user.name}</h3>
-        <div class="userSubInfo">
-            <h6>${user.username}</h6>
-            <h6>${user.age}</h6>
-        </div>
-    </div>
-    `
-}
-
-function suggestionCard(user){
-    return `
-    <div class="userCard">
-        <h3>${user}</h3>
-        <div class="userSubInfo">
-            <h6> </h6>
-            <h6> </h6>
-        </div>
-    </div>
-    `
-}
