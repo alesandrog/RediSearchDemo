@@ -29,13 +29,12 @@
 
 
             <form class="d-flex">
-                <div class="form-container">
-                    <input class="form-control me-2" id="searchbox" placeholder="Search by name or user" onkeyup="search()">
-                    <input class="form-control me-2" id="searchbox2" placeholder="" onkeyup="search()">
-                    <div class="search-container" style="display: inline;">
-                        <div class="result-container" style="position: absolute;">
+                <div class="form-container" style="width:250px;">
+                    <input style="width: 250px;" class="form-control me-2" id="searchbox" placeholder="Search by name or user" onkeyup="search()">
+                    <input style="width: 250px;" class="form-control me-2" id="searchbox2" placeholder="" onkeyup="search()">
+                    <div class="search-container" style="display: inline; width: 250px;">
+                        <div class="result-container" style="position: absolute; width: 250px;">
                             <ul id="result_list">
-
                             </ul>
                         </div>
                     </div>
@@ -76,6 +75,9 @@
                     <label for="ageInput" class="form-label">Age</label>
                     <input type="number" class="form-control" id="ageInput"
                         placeholder="">
+                </div>
+                <div class="mb-3">
+                    <button type="button" class="btn btn-primary" onclick="addUser()">Add User</button>
                 </div>
             </div>
 
