@@ -16,7 +16,9 @@ const userRead = document.getElementById('userRead');
 const nameRead = document.getElementById('nameRead');
 const ageRead = document.getElementById('ageRead');
 
-
+/**
+ * HTTP Options
+ */
 
 const GEToptions = {
     method: 'GET',
@@ -26,14 +28,17 @@ const GEToptions = {
 };
 
 const POSToptions = {
-    method: 'GET',
+    method: 'POST',
     headers: {
         'Content-Type': 'application/json'
     },
     body:{}
 };
 
-
+/**
+ * @method search
+ * Sends a request to search the specified value in the Redis database
+ */
 
 async function search(){
     if(searchbox.value == ''){
@@ -43,7 +48,6 @@ async function search(){
     const suggestion = await fetch(`http://localhost:5000/autocomplete/${searchbox.value}`, GEToptions);
     const suggJson = await suggestion.json();
     placeholderBox.placeholder = suggJson.data[0] != undefined ? suggJson.data[0] : '';
-    console.log(suggJson.data[0])
 
     const data = await fetch(`http://localhost:5000/search/${searchbox.value}`, GEToptions);
     const json = await data.json();
@@ -61,6 +65,12 @@ async function search(){
     }
 }
 
+/**
+ * @method setUserData
+ * Sends a request to get user complete data
+ * @param {string} userId 
+ */
+
 async function setUserData(userId){
     const data = await fetch(`http://localhost:5000/search/${userId}`, GEToptions);
     const json = await data.json();
@@ -70,9 +80,35 @@ async function setUserData(userId){
     ageRead.placeholder = user.age;
 }
 
+/**
+ * @function listElement
+ * @param {Object} user 
+ * @returns {string} list html element
+ */
+
 function listElement(user){
     return `
     <li id="${user.username}" class="list_el">@${user.username} | ${user.name} </li>
     `;
+}
+
+/**
+ * @method addUser
+ * Sends a POST request to save a new user in the Redis database
+ */
+
+async function addUser(){
+    const user = {
+        username:userInput.value,
+        name:nameInput.value,
+        age:ageInput.value
+    }
+    POSToptions.body = JSON.stringify(user);
+    await fetch(`http://localhost:5000/add`, POSToptions);
+    alert('user added');
+
+    userInput.value = '';
+    nameInput.value = '';
+    ageInput.value = '';
 }
 
