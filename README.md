@@ -18,7 +18,7 @@ docker run -p 6379:6379 redislabs/redisearch:latest
 pip3 install redisearch
 ```
 
-#### [Flask]() - Web Framework
+#### [Flask](https://github.com/pallets/flask) - Web Framework
 
 ###### Install using pip
 
